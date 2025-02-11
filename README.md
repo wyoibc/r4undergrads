@@ -89,9 +89,9 @@ If you already have experience in R and are comfortable with creating and manipu
 <br>
 <br>
 
-Website link: [https://wyoibc.github.io/r4grads/](https://wyoibc.github.io/r4undergrads/)
+Website link: [https://wyoibc.github.io/r4undergrads/](https://wyoibc.github.io/r4undergrads/)
 
-Github repo: [https://github.com/wyoibc/r4grads](https://github.com/wyoibc/r4undergrads)
+Github repo: [https://github.com/wyoibc/r4undergrads](https://github.com/wyoibc/r4undergrads)
 
 
 <br><br><br><br>
