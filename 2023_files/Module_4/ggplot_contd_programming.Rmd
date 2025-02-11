@@ -1,0 +1,796 @@
+---
+title: "ggplot continued, loops & functions"
+author: "Sean Harrington"
+date: "2023-03-22"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_knit$set(root.dir = "~/r4grads/Fish_data/Modified/")
+```
+
+<br>
+
+[Home](https://wyoibc.github.io/r4grads/)
+
+<br>
+<br>
+
+## Set up:
+
+If you don't have the data from last time handy, or have forgotten where you put it, use the instructions from the the [week 2 session](https://wyoibc.github.io/r4grads/Module_2/R_Data_manip.html) to re-download it. Then set your working directory to where the data are:
+
+* **Remember that this file path will almost definitely be different for you!**
+
+```{r, eval = FALSE}
+setwd("~/r4grads/Fish_data/Modified/")
+```
+
+We'll need our `all_data` object again. If you have your `"fish_data_merged.csv"` file that we wrote out last time, you can read in:
+
+```{r}
+all_data <- read.csv("fish_data_merged.csv")
+```
+
+If you've lost track of this file, we can create it again:
+
+* **If you have the "fish_data_merged.csv" file and were able to run the line above, you do not need to run these lines!**
+
+```{r}
+# read in each of the data files
+body <- read.csv("Fish_body_size.csv")
+iso <- read.csv("Fish_isotopes.csv")
+# Make all of the subsitutions that we made last time
+body$Species <- gsub("Steelhesd", "Steelhead", body$Species)
+body$Species <- gsub("COHO", "Coho", body$Species)
+body$Species <- gsub("^Dolly$", "Dolly varden", body$Species)
+body$Site <- gsub("RT02-R", "RT02R", body$Site)
+body$Site <- gsub("RT02-BP", "RT02BP", body$Site)
+# Merge the data
+all_data <- merge(body, iso)
+```
+
+<br>
+<br>
+
+# ggplot continued
+
+<br>
+<br>
+
+Load up tidyverse (alternately, you can just use `library(ggplot2)` if you don't care about loading up other tidyverse packages):
+
+```{r}
+library(tidyverse)
+```
+
+
+<br>
+
+
+### Geometric objects and facets
+
+There are many types of geoms, or geometric objects, that we can plot. We won't come anywhere close to exploring the full set that are available, but we'll demonstrate a few.
+
+
+Here is a smoothed line plot of length vs. del15N:
+
+```{r}
+ggplot(data = all_data) + 
+  geom_smooth(mapping = aes(x = Fork.length..cm., y = del15N))
+```
+
+<br>
+
+We can show the different species by setting `linetype`:
+
+```{r}
+ggplot(data = all_data) + 
+  geom_smooth(mapping = aes(x = Fork.length..cm., y = del15N, linetype = Species))
+```
+
+This does not look good at all and throws some warnings These are caused because at least one of our species has very few observations, and this causes issues with the method used to create the smoothed line.
+
+* **Warnings vs. errors**: An error in R means that something has gone wrong such that the function you tried to run could not be successfully executed. Warnings are *potentially* less severe. It means that some potetentially undesirable behavior has occurred, but that the function is still able to run and return output. However, a warning could very well mean that your function has returned bad results, and you should always investigate what caused a warning and if the output is acceptable or not.
+
+<br>
+
+In this case, it might be useful to look at each species plotted individually. However, I don't want to go through and individually code each plot. Instead, let's use the facet functionality of ggplot:
+
+
+```{r}
+ggplot(data = all_data) + 
+  geom_smooth(mapping = aes(x = Fork.length..cm., y = del15N)) +
+  facet_wrap(~ Species)
+```
+
+We can start to see where the problem might be, but the x and y scales for these different species really aren't comparable. How would we go about finding information to let the x and y axes vary across facets?
+
+
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+
+I'd always start with R's internal help:
+
+```{r}
+?facet_wrap()
+```
+
+If you look at the `scales` argument, this looks like what we want.
+
+If that hadn't been helpful, we can always google something like "ggplot facets different axes". I get [this](https://stackoverflow.com/questions/21937127/different-axis-limits-per-facet-in-ggplot2) as the top result, and it also indicates that we need to set the `scales` argument.
+
+
+<br>
+
+```{r, warning = FALSE}
+ggplot(data = all_data) + 
+  geom_smooth(mapping = aes(x = Fork.length..cm., y = del15N)) +
+  facet_wrap(~ Species, scales = "free")
+```
+
+As is the case with most things in `ggplot` and R more generally, there are many ways to customize facets, and we won't explore those here.
+
+* Which of these species looks problematic? Try making a single plot using `geom_smooth()` including `linetype = Species` as above, but remove the offending species from the data before plotting.
+
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+I removed only "Pink" - you might have decided to also remove "Chum" - either is fine.
+
+
+Using base R indexing:
+
+```{r, fig.show = 'hide', message = FALSE}
+ggplot(data = all_data[!all_data$Species == "Pink", ]) + 
+  geom_smooth(mapping = aes(x = Fork.length..cm., y = del15N,  linetype = Species))
+```
+
+
+Using filter from `dplyr`:
+
+```{r}
+ggplot(data = filter(all_data, Species != "Pink")) + # Note the != for "not equal to"
+  geom_smooth(mapping = aes(x = Fork.length..cm., y = del15N,  linetype = Species))
+```
+
+This works, but, it's still rather hard to tell what's going on with each species. 
+
+* Try adding an argument to make the lines different colors.
+
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+```{r}
+ggplot(data = filter(all_data, Species != "Pink")) +
+  geom_smooth(mapping = aes(x = Fork.length..cm., y = del15N,  linetype = Species, color = Species))
+```
+<br>
+<br>
+
+
+This looks reasonably good, but still a little busy. This may or may not be the best way to convey these data. For the next few things we try, let's reduce out dataset down to just Coho, coastrange sculpin, and Steelhead.
+
+```{r}
+data_red <- filter(all_data, Species %in% c("Coho", "coastrange sculpin", "Steelhead"))
+```
+
+<br>
+<br>
+
+We will often want to stack multiple geoms on top of each other. E.g., to fully visualize the trends and spread in the data, we might want to plot both the points and the line.
+
+How do you think we'd go about plotting both of these on the same plot?
+
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+
+
+```{r}
+ggplot(data = data_red) + 
+  geom_point(mapping = aes(x = Fork.length..cm., y = del15N)) +
+  geom_smooth(mapping = aes(x = Fork.length..cm., y = del15N))
+```
+
+
+<br>
+
+If we have multiple layers in our plot that all share the same aesthetic, it can be easier to specify them once in the `ggplot()` call rather than idividually each time we call a new geom:
+
+```{r}
+ggplot(data = data_red, mapping = aes(x = Fork.length..cm., y = del15N)) + 
+  geom_point() +
+  geom_smooth()
+```
+
+<br>
+
+We get exactly the same plot. The global mappings are applied to each geom when it is called. We can also extend or override the global mappings within each geom:
+
+```{r}
+ggplot(data = data_red, mapping = aes(x = Fork.length..cm., y = del15N)) + 
+  geom_point(mapping = aes(color = Species)) +
+  geom_smooth()
+```
+
+<br>
+<br>
+
+* Make a plot that has points colored by species, and also separate colored lines for each species.
+
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+```{r}
+ggplot(data = data_red, mapping = aes(x = Fork.length..cm., y = del15N, color = Species)) + 
+  geom_point() +
+  geom_smooth(mapping = aes(linetype = Species))
+```
+
+
+<br>
+
+Note that we can also add the data argument into a geom. Here we'll plot the points for all species, but the line for only Coho:
+
+```{r}
+ggplot(data = data_red, mapping = aes(x = Fork.length..cm., y = del15N, color = Species)) + 
+  geom_point() +
+  geom_smooth(data = filter(data_red, Species == "Coho"))
+```
+
+
+There are many, many ways to futher customize graphics in ggplot. If there is a type of plot you want to make, there is a good chance that ggplot will make it and you can usually find good examples with some internet searching. I turn to Google all the time to figure out how to make specific plots in ggplot.
+
+<br>
+<br>
+
+### Plots by discrete variables
+
+We've made a bunch of scatter and line plots, let's explore a few ways to plot out discrete variables.
+
+<br>
+
+We can make just a scatterplot, but it's really not very informative.
+
+```{r}
+ggplot(data = all_data, mapping = aes(x = Species, y = del15N)) + 
+  geom_point()
+```
+
+
+<br>
+<br>
+
+We can make a boxplot instead:
+
+```{r}
+ggplot(data = all_data, mapping = aes(x = Species, y = del15N)) + 
+  geom_boxplot()
+```
+
+This tells us a lot more information. We can also do things like swap the x and y coordinates:
+
+```{r}
+ggplot(data = all_data, mapping = aes(x = Species, y = del15N)) + 
+  geom_boxplot() +
+  coord_flip()
+```
+
+Or fill the boxes with colors by species:
+
+```{r}
+ggplot(data = all_data, mapping = aes(x = Species, y = del15N, fill = Species)) + 
+  geom_boxplot() +
+  theme(legend.position="none")
+```
+
+* What does `theme(legend.position="none")` in the above code do? What happens if we remove it?
+
+<br>
+<br>
+<br>
+<br>
+
+There are lots of other things we could do with boxplots, but we'll move on. My favorite way of visualizing distributions for discrete variables is using violin plots:
+
+```{r}
+ggplot(data = all_data, mapping = aes(x = Species, y = del15N)) + 
+  geom_violin(trim=FALSE)
+```
+
+
+This is fine, but not great. Change this plot so that the violins are filled with different colors for each species. Also get rid of any legend that shows up. 
+
+
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+
+```{r}
+ggplot(data = all_data, mapping = aes(x = Species, y = del15N, fill = Species)) + 
+  geom_violin(trim=FALSE) +
+  theme(legend.position="none")
+```
+
+<br>
+
+If we want to, we can add boxplots within the violins. This is similar to adding the `geom_smooth` to the scatterplots above. Try making a violin plot with boxplots inside. 
+
+Make the violins filled by different colors for each species, but keep the boxplots unfilled. As a hint, the argument `width` controls the width of boxplots.
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+```{r}
+ggplot(data = all_data, mapping = aes(x = Species, y = del15N)) + 
+  geom_violin(trim=FALSE, mapping = aes(fill = Species)) +
+  geom_boxplot(width=0.1)+
+  theme(legend.position="none")
+```
+
+
+This looks pretty fancy to me. What would happen if we swapped the order of the `geom_violin()` and `geom_boxplot()` lines? Try it out.
+
+<br>
+<br>
+<br>
+<br>
+
+What you should see is that the order of geoms matters. Sequential geoms are plotted on top of the precious ones, and you need to consider this when making plots. Note that if you have multiple layers, there are ways to use semi-transparent colors.
+
+<br>
+<br>
+
+
+
+A couple final things:
+
+We can change the axis labels and add a plot title if we want:
+
+```{r}
+ggplot(data = all_data, mapping = aes(x = Species, y = del15N)) + 
+  geom_violin(trim=FALSE, mapping = aes(fill = Species)) +
+  geom_boxplot(width=0.1)+
+  theme(legend.position="none") +
+  labs(title="Fish nitrogen isotopes", x = "Species", y = "delta 15 N")
+```
+
+And/or we can change the theme of the background:
+
+```{r}
+ggplot(data = all_data, mapping = aes(x = Species, y = del15N)) + 
+  geom_violin(trim=FALSE, mapping = aes(fill = Species)) +
+  geom_boxplot(width=0.1)+
+  labs(x = "Species", y = "delta 15 N") +
+  theme_minimal() +
+  theme(legend.position="none")
+```
+
+* Note that we had to move `theme(legend.position="none")` to after `theme_minimal()` because whichever comes last will override some of the parameters set by the one that is run first.
+
+or 
+
+```{r}
+ggplot(data = all_data, mapping = aes(x = Species, y = del15N)) + 
+  geom_violin(trim=FALSE, mapping = aes(fill = Species)) +
+  geom_boxplot(width=0.1)+
+  labs(x = NULL, y = "delta 15 N") + # Get rid of the x label, sometimes the categories are self explanatory
+  theme_classic() +
+  theme(legend.position="none")
+```
+
+
+<br>
+<br>
+<br>
+<br>
+
+You customize each of these plots almost endlesslessly, and there are many other types of plots that you can create, as well. If you want to get an idea for some of the plotting diversity available, check out the the [R graph gallery](https://r-graph-gallery.com/).
+
+
+<br>
+<br>
+
+## Saving plots
+
+R allows us to easily export plots using a couple simple lines of code. We glossed over this last time, so we'll cover it here again.
+
+RStudio also has options to export and save plots from the "Plots" window - **DON'T SAVE PLOTS THAT WAY!** These will be lower resolution and sometimes get stretched in weird ways.
+
+
+The standard way to save a plot in R is to open a plotting device, run your plotting code which will write to the open file connection, then close the plotting device. Here is plotting to a pdf:
+
+```{r}
+pdf(file = "violin.pdf", width = 7, height = 4) # create and open the pdf plotting device
+
+# Make the plot
+ggplot(data = all_data, mapping = aes(x = Species, y = del15N)) + 
+  geom_violin(trim=FALSE, mapping = aes(fill = Species)) +
+  geom_boxplot(width=0.1)+
+  labs(x = NULL, y = "delta 15 N") + # Get rid of the x label, sometimes the categories are self explanatory
+  theme_classic() +
+  theme(legend.position="none")
+
+dev.off() # close the pdf plotting device
+```
+
+If you forget to run `dev.off()`, all subsequent plots will continue to go to the plotting device, and you won't be able to view the pdf because it won't be "finished".
+
+
+<br>
+
+ggplot also allows you to save a plot in an object, so you don't need to put the entire plotting call inside the `pdf()` and `dev.off()` lines. Here we'll do this and then also save .png and .tif files:
+
+
+```{r}
+# Make the plot
+to_plot <- ggplot(data = all_data, mapping = aes(x = Species, y = del15N)) + 
+  geom_violin(trim=FALSE, mapping = aes(fill = Species)) +
+  geom_boxplot(width=0.1)+
+  labs(x = NULL, y = "delta 15 N") +
+  theme_classic() +
+  theme(legend.position="none")
+
+
+# Make a pdf
+pdf(file = "violin2.pdf", width = 7, height = 4)
+to_plot
+dev.off() 
+
+
+# make a png
+png(file = "violin3.png", width=600, height=350) # width and height are in pixels for png
+to_plot
+dev.off()
+
+# make a .tiff
+tiff(file="violin4.tiff", width = 7, height = 4, units="in", res=100)
+to_plot
+dev.off()
+
+```
+
+* Note that you need to add the file extensions (e.g., .pdf, .png) to your files if you want them.
+
+I like to use pdf format because it's vector based, and so has effectively infinite resolution. I typically write pdf figures out from R and then directly use these as the figures I submit to journals with my manuscripts.
+
+<br>
+<br>
+
+
+
+# Loops & functions
+
+If we have any time left, we'll wrap up by very quickly going over loops and functions. We could easily spend several sessions on these topics, the idea is just to introduce the concepts. There are many good resources online to explore these further.
+
+The point of both functions and loops is to reduce the amount of code that you use for repetitive tasks.
+
+
+<br>
+
+## Functions
+
+Functions are used for when you need to repeat the same operation multiple times.
+
+For example, let's say we wanted to get the mean fork length of each species of fish in our dataset. (We did something just like this using `group_by()` and `summarise()` in week 3, but we'll pretend that those don't exist or that we don't want to use them)
+
+We can of course do this with a bunch of copying and pasting:
+
+```{r}
+coho_mlen <- mean(all_data[all_data$Species == "Coho", "Fork.length..cm."])
+stickle_mlen <- mean(all_data[all_data$Species == "Three spine stickleback", "Fork.length..cm."])
+chum_mlen <- mean(all_data[all_data$Species == "Chum", "Fork.length..cm."])
+```
+
+But that's tedious enough that I don't even want to complete that example. In copying and pasting that, the code we run each time is identical but with a single input changed each time. This is a good sign that we should write a function:
+
+```{r}
+mean_of_spec <- function(x){
+  mean(all_data[all_data$Species == x, "Fork.length..cm."])
+}
+```
+
+All functions have at least 3 key pieces:
+
+1. A name: here I'm naming the function `mean_of_spec()`
+2. Arguments: the input and options to a function. Here we have a single argument `x`. With more arguments, it can start to make sense to give them more informative names.
+3. Body: the body of the function is the code with `{}` that will run on the inputs.
+
+
+* An important note about this function: this is not a generalizable function - it requires that the all_data object exists in exactly the way that we've prepared it. This is fine for our very specific use case, but it is not best practice in the general case.
+
+<br>
+
+We can run this function now instead of typing out all that code:
+
+```{r}
+coho_mlen <- mean_of_spec("Coho")
+stickle_mlen <- mean_of_spec("Three spine stickleback")
+chum_mlen <- mean_of_spec("Chum")
+```
+
+<br>
+
+This is certainly better, but we're still manually going through and running the function each time. We can easily get a list of all the unique species and then use a loop to run our function over this list instead of doing each one by hand.
+
+<br>
+<br>
+
+## Loops
+
+Loops let us iterate the same set of code over multiple inputs. There are two types of loops: for loops and while loops. We'll only go over for loops, as they are more commonly used in data analysis and processing.
+
+We'll start with an example of getting the mean lengths for all of our species, then we'll iterate over that to get the mean length for each:
+
+```{r}
+all_spec <- unique(all_data$Species) # what we want to iterate over
+
+mean_lens <- vector(length = length(all_spec)) # An object that we'll put the output into
+for(i in seq_along(all_spec)){ # set up the sequence to iterate over
+  # for each i in the sequence, do:
+  mean_lens[[i]] <- mean_of_spec(all_spec[[i]])
+}
+
+# add some names on and then look at the output
+names(mean_lens) <- all_spec
+mean_lens
+```
+
+
+Loops have three essential parts:
+
+1. Output: you need to pre-create the object that will house the output of your loop. If you create it within the loop, each iteration of the loop will overwrite the previous iteration's object. You can do some fancy things like overwrite an existing object or create blank objects of zero length that you add onto with each iteration.
+2. The sequence. This is the part in the `for()`. Most commonly, you'll use a numeric sequence, and in each iteration, `i` will be an object that holds the number of the current iteration. There are variations to this, though, `i` is arbitrary, and you can name this something more infomative, use j, etc. You also don't need to use a numeric sequence.
+3. The body of the loop. This is the code to be executed at each iteration. The simplest way to run the body is to use `i` to index whatever object you want to iterate over and also to index the output object. There are much more complicated ways of doing this, too.
+
+
+* We used `seq_along(all_spec)` to generate our sequence as a list of numbers from 1 to length of `all_spec`. This is similar to `1:length(all_spec)`, but if `all_spec` somehow accidentally became an empty vector of length zero, `seq_along(all_spec)` will return an empty vector, wheras `1:length(all_spec)` will yield `1 0`, which is undesirable. Accidentally creating empty vectors when scripting is more common than you might think, and it is good to account for this possibility.
+
+
+<br>
+
+There are a lot of nuances of loops, functions, etc. that we don't have time to cover. A couple things to be aware of:
+
+- R has a set of `apply()`, `sapply()`, `lapply()`, etc. functions that have loop-like behavior. There are also Tidyverse functions that can do loop-like things.
+- `if{}` statements can allow your functions or loops to do certain things only if certain conditions are met, and otherwise do something else.
+- Loops do not only need to be run on numeric vectors as the sequence. This is often the easiest way to index both the input and outputs, but character vectors can also be used.
+
+The [**R for Data Science** book](https://r4ds.had.co.nz/index.html) is a good place to look for a more thorough introduction to writing functions and loops in R.
+
+<br>
+<br>
+
+[Home](https://wyoibc.github.io/r4grads/)
+
+<br>
+<br>
+
+
+
+
+
+
+
+
+
+
+
