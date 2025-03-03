@@ -1,19 +1,19 @@
 ---
 title: "R data manipulation and plotting pt. 2"
 author: "Sean Harrington & Erin Bentley"
-date: "2025-03-12"
+date: "2025-03-27"
 output: html_document
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-knitr::opts_knit$set(root.dir = "~/r4grads/lizard_data/")
+knitr::opts_knit$set(root.dir = "~/r4undergrads/lizard_data/")
 
 ```
 
 <br>
 
-[Home](https://wyoibc.github.io/r4grads/)
+[Home](https://wyoibc.github.io/r4undergrads/)
 
 <br>
 <br>
@@ -781,7 +781,7 @@ I like to use pdf format because it's vector based, and so has effectively infin
 <br>
 <br>
 
-[Home](https://wyoibc.github.io/r4grads/)
+[Home](https://wyoibc.github.io/r4undergrads/)
 
 <br>
 <br>

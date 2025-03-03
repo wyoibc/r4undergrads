@@ -1,18 +1,18 @@
 ---
 title: "R data manipulation and plotting"
 author: "Sean Harrington & Erin Bentley"
-date: "2025-03-05"
+date: "2025-03-13"
 output: html_document
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-knitr::opts_knit$set(root.dir = "~/r4grads/lizard_data/")
+knitr::opts_knit$set(root.dir = "~/r4undergrads/lizard_data/")
 ```
 
 <br>
 
-[Home](https://wyoibc.github.io/r4grads/)
+[Home](https://wyoibc.github.io/r4undergrads/)
 
 <br>
 <br>
@@ -605,7 +605,7 @@ ggplot(data = all_data) +
 <br>
 <br>
 
-[Home](https://wyoibc.github.io/r4grads/)
+[Home](https://wyoibc.github.io/r4undergrads/)
 
 <br>
 <br>

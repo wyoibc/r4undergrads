@@ -11,7 +11,7 @@
 
 <meta name="author" content="Sean Harrington" />
 
-<meta name="date" content="2025-02-19" />
+<meta name="date" content="2025-03-06" />
 
 <title>Intro to R &amp; Rstudio</title>
 
@@ -352,13 +352,13 @@ display: none;
 
 <h1 class="title toc-ignore">Intro to R &amp; Rstudio</h1>
 <h4 class="author">Sean Harrington</h4>
-<h4 class="date">2025-02-19</h4>
+<h4 class="date">2025-03-06</h4>
 
 </div>
 
 
 <p><br></p>
-<p><a href="https://wyoibc.github.io/r4grads/">Home</a></p>
+<p><a href="https://wyoibc.github.io/r4undergrads/">Home</a></p>
 <p><br> <br></p>
 <div id="what-is-r" class="section level2">
 <h2>What is R?</h2>
@@ -733,7 +733,7 @@ place.</p>
 <p>To see your current working directory, you can use the function
 <code>getwd()</code>.</p>
 <pre class="r"><code>getwd()</code></pre>
-<pre><code>## [1] &quot;/Users/harrington/r4grads/Module_1&quot;</code></pre>
+<pre><code>## [1] &quot;/Users/harrington/r4undergrads/Module_1&quot;</code></pre>
 <ul>
 <li>Note that even we aren’t supplying any arguments to this function,
 we still need the open and close parentheses to indicate that this is a
@@ -869,14 +869,10 @@ Bioconductor:</p>
 <pre class="r"><code>install.packages(&quot;BiocManager&quot;) # install BiocManager from CRAN</code></pre>
 <pre class="r"><code>BiocManager::install(&quot;DESeq2&quot;) # install DESeq2 from Bioconductor</code></pre>
 <pre><code>## Bioconductor version 3.20 (BiocManager 1.30.25), R 4.4.2 (2024-10-31)</code></pre>
-<pre><code>## Installing package(s) &#39;BiocVersion&#39;, &#39;DESeq2&#39;</code></pre>
-<pre><code>## also installing the dependencies &#39;httr&#39;, &#39;formatR&#39;, &#39;UCSC.utils&#39;, &#39;GenomeInfoDbData&#39;, &#39;zlibbioc&#39;, &#39;abind&#39;, &#39;SparseArray&#39;, &#39;lambda.r&#39;, &#39;futile.options&#39;, &#39;GenomeInfoDb&#39;, &#39;XVector&#39;, &#39;S4Arrays&#39;, &#39;DelayedArray&#39;, &#39;futile.logger&#39;, &#39;snow&#39;, &#39;BH&#39;, &#39;S4Vectors&#39;, &#39;IRanges&#39;, &#39;GenomicRanges&#39;, &#39;SummarizedExperiment&#39;, &#39;BiocGenerics&#39;, &#39;Biobase&#39;, &#39;BiocParallel&#39;, &#39;matrixStats&#39;, &#39;locfit&#39;, &#39;MatrixGenerics&#39;</code></pre>
-<pre><code>## 
-## The downloaded binary packages are in
-##  /var/folders/78/52tyys2d4vd1ljvg_ytfvfr40000gn/T//RtmpA7mrqb/downloaded_packages</code></pre>
-<pre><code>## installing the source package &#39;GenomeInfoDbData&#39;</code></pre>
-<pre><code>## Old packages: &#39;class&#39;, &#39;cluster&#39;, &#39;foreign&#39;, &#39;KernSmooth&#39;, &#39;MASS&#39;, &#39;Matrix&#39;,
-##   &#39;nlme&#39;, &#39;nnet&#39;, &#39;rpart&#39;, &#39;spatial&#39;, &#39;survival&#39;</code></pre>
+<pre><code>## Warning: package(s) not installed when version(s) same as or greater than current; use
+##   `force = TRUE` to re-install: &#39;DESeq2&#39;</code></pre>
+<pre><code>## Old packages: &#39;curl&#39;, &#39;data.table&#39;, &#39;jsonlite&#39;, &#39;MASS&#39;, &#39;processx&#39;, &#39;ps&#39;,
+##   &#39;readxl&#39;, &#39;segmented&#39;, &#39;SparseArray&#39;, &#39;tinytex&#39;, &#39;xfun&#39;, &#39;xml2&#39;</code></pre>
 <ul>
 <li>Here, we used the double colon after <code>BiocManager</code> to
 tell R to use a function from that package without loading the whole
@@ -943,7 +939,7 @@ is less critical than staying current with R and packages, but can cause
 issues with plotting and other features if you get too far behind.
 RStudio will usually prompt you when a new version is available.</p>
 <p><br> <br></p>
-<p><a href="https://wyoibc.github.io/r4grads/">Home</a></p>
+<p><a href="https://wyoibc.github.io/r4undergrads/">Home</a></p>
 <p><br> <br></p>
 </div>
 

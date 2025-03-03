@@ -1,7 +1,7 @@
 ---
 title: "Intro to R & Rstudio"
 author: "Sean Harrington"
-date: "2025-02-19"
+date: "2025-03-06"
 output: html_document
 ---
 
@@ -11,7 +11,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 <br>
 
-[Home](https://wyoibc.github.io/r4grads/)
+[Home](https://wyoibc.github.io/r4undergrads/)
 
 <br>
 <br>
@@ -543,7 +543,7 @@ RStudio also updates periodically. Staying fully current with RStudio is less cr
 <br>
 <br>
 
-[Home](https://wyoibc.github.io/r4grads/)
+[Home](https://wyoibc.github.io/r4undergrads/)
 
 <br>
 <br>
