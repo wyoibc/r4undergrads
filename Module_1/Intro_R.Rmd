@@ -1,6 +1,6 @@
 ---
 title: "Intro to R & Rstudio"
-author: "Sean Harrington"
+author: "Sean Harrington & Erin Bentley"
 date: "2025-03-06"
 output: html_document
 ---
@@ -34,7 +34,7 @@ Coding can be tricky to learn at first. Things like specifying how to make a plo
 
 ## Getting oriented in RStudio
 
-As stated above, we'll be using RStudio. When you open RStudio for the first time, you should see something that looks roughly, but not exactly, like this:
+RStudio is just a program that gives you a nice interface for interacting with R. When you open RStudio for the first time, you should see something that looks roughly, but not exactly, like this:
 
 
 
@@ -63,11 +63,11 @@ We could entirely interact with R in this way, but that defeats the purpose of u
 
 While you *could* type all of your code directly into the console in RStudio, lines of code that you type into the console quickly disappear and there is no good record of what code you ran before, nor is there any good way to modify old code code for new purposes.
 
-I **HIGHLY** recommend that you put all of your code into a script whenever you code in R (and any other languages). A script is just a text file that contains commands for R (or another language). When you put all of your commands into an R script and save it, you keep a permanent record of what you did. This helps you remember what you did; lets you replicate what you did or slightly tweak what you did if you need to redo it, make small changes, or run the same operations on a different dataset; and allows you to share your code with others so that others can replicate your science.
+I **HIGHLY** recommend that you put all of your code into a script whenever you code in R (and any other languages). A script is just a text file that contains commands for R (or another language). A saved script keeps a permanent record of what you did. This helps you remember what you did; lets you replicate what you did or slightly tweak what you did if you need to redo it, make small changes, or run the same operations on a different dataset; and allows you to share your code with others so that others can replicate your science.
 
 If you haven't done much coding before, you'll be surprised just how fast you can forget everything you did, and even more importantly, why you did it. Well commented scripts avoid (or at least massively mitigate) this problem. I pretty much only type commands directly into the console if I'm running quick checks or getting help. Anything that I actually do to process or plot data goes into the script.
 
-To create a new R script, click on the little `+` button in the top right of RStudio and click on `R script`:
+To create a new R script, click on the little `+` button in the top left of RStudio and click on `R script`:
 
 ![new script](new_script.png){#id .class width=45% height=45%}\
 
@@ -77,7 +77,31 @@ This will open a new window with an empty R script. You can type all of your cod
 
 To save your R script, go up to `file` in the menu bar (possibly at the top of your screen, above your RStudio window) and select `save as`.
 
-In your script, anything that you type after `#` will be treated as a comment, meaning that R will not try to run it. This allows you to include information about what you're running and why as a reference for your future self and anyone that you might share the code with. For an idea of how I structure R scripts and use comments, take a look here: https://github.com/seanharrington256/Lgetula_gbs/blob/master/04_R_analyses/Lgetula_pop_assignment.R   
+- When saving scripts and data, make sure you organize your files in a way that will be easy to navigate later. I tend to create a folder for each research project, and then within that, I have multiple subfolders: one for raw data, one for scripts, one for intermediate files that have been processed, one for output, etc. If I am doing complex analyses with multiple types of input data and output files, I may have multiple subfolders for each of these.
+
+
+## Comments
+
+In your script, anything that you type after `#` will be treated as a comment, meaning that R will not try to run it. This allows you to include information about what you're running and why as a reference for your future self and anyone that you might share the code with. 
+
+Comments can be either at the end of a line of code:
+
+```{r, eval=FALSE}
+3+3 # here, we add 3+3 
+```
+
+
+or can be their own lines, or multiple lines:
+
+```{r, eval=FALSE}
+# If you have lots of stuff to comment and explain your code,
+#   it may be best to write it over multiple lines. This is just a really big comment
+#   explaining that the code below adds 3+3
+3+3
+```
+
+
+For an idea of how I structure R scripts and use comments, take a look here: https://github.com/seanharrington256/Lgetula_gbs/blob/master/04_R_analyses/Lgetula_pop_assignment.R   
 
 This is a single script from the Github repository for one of my manuscripts on kingsnake population genetics. This script does a lot of things in a large loop over multiple datasets, and would be pretty hard to figure out without lots of comments. Readability is particularly important here because this is publicly available code that accompanies the manuscript so that others can replicate my analyses if they choose.
 
@@ -168,7 +192,7 @@ This is great, but for coding to be useful, we need to be able to work with data
 
 ## Objects
 
-R is an object-based language. It stores data in memory as "objects" that the user can manipulate using the names of the objects. Data are assigned to objects using the `<-` operator.
+**R is an object-based language.** It stores data in memory as "objects" that the user can manipulate using the names of the objects as pointers to the underlying data. Data are assigned to objects using the `<-` operator.
 
 <br>
 
@@ -221,7 +245,7 @@ We aren't restricted to objects that contain only a single value: some objects c
 
 #### 1. Vectors:
 
-Vectors are just a series of values - these can be numbers, characters, TRUE/FALSE, whatever. An important part of vectors is that hey have a single dimension: they do not have columns and rows, they are just a series of values.
+Vectors are just a series of values - these can be numbers, characters, TRUE/FALSE, whatever. An important part of vectors is that they have a single dimension: they do not have columns and rows, they are just a series of values.
 
 ```{r}
 months <- c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12)
@@ -411,7 +435,7 @@ If we set the working directory to somewhere else and then try to read in the fi
 ```{r eval = FALSE}
 setwd("~")
 years3 <- read.csv("year.csv") # this fails
-years3 <- read.csv("/Users/harrington/r4grads/Module_1/year.csv") # This works
+years3 <- read.csv("/Users/harrington/r4undergrads/Module_1/year.csv") # This works
 ```
 
 * Note that your paths will be different than mine! This is all about where you write your files and how your computer is set up.
@@ -503,7 +527,7 @@ BiocManager::install("DESeq2") # install DESeq2 from Bioconductor
 
 ## Getting help in R:
 
-There are a few options for getting help with R. The first is to use the `?` to see the documentation that accompanies a fucntion within R:
+There are a few options for getting help with R. The first is to use the `?` to see the documentation that accompanies a function within R:
 
 ```{r eval = FALSE}
 ?plot
@@ -520,7 +544,7 @@ Getting good at coding isn't about learning every function you'll ever need and 
 
 Sometimes, you can search things like "LEA package tutorial" and find good documentation for an entire package like [this](https://www.bioconductor.org/packages/devel/bioc/vignettes/LEA/inst/doc/LEA.pdf). Other times, you might have a much more specific question about a particular function and want to search something like "set background color in histogram R", which might take you to a stackoverflow page like [this](https://stackoverflow.com/questions/7236958/change-background-color-of-r-plot). Stackoverflow is a common place where questions and answers to specific problems get posted. Understanding the answers can require a bit of knowledge, though.
 
-Chatgpt and related AI platforms have emerged as great tools to troubleshoot or help write code. We'll talk more about how to structure Chatgpt requests for code in a later session. For now, know that it's very powerful and can write fairly complex code if your request is specific and detailed enough. **However, if it doesn't know exactly how to do something, it can also entirely make up functions or mess up syntax**. That means that you will still need to know enough to be able to test your code and recognize and troubleshoot any errors that you encounter.
+Chatgpt and other AI platforms have emerged as great tools to troubleshoot or help write code. We'll talk more about how to structure Chatgpt requests for code in a later session. For now, know that it's very powerful and can write fairly complex code if your request is specific and detailed enough. **However, if it doesn't know exactly how to do something, it can also entirely make up functions or mess up syntax**. That means that you will still need to know enough to be able to test your code and recognize and troubleshoot any errors that you encounter.
 
 <br>
 
@@ -528,7 +552,7 @@ Chatgpt and related AI platforms have emerged as great tools to troubleshoot or 
 
 New versions of R come out several times each year, and you should always ensure that you are working with the most recent version of R whenever possible. If you are using an outdated version of R, but install a package that was built under a newer version of R, this can cause incompatibilities. This can either prevent the package from installing at all or sometimes cause errors when you try to use a function that are hard to diagnose.
 
-For this reason, it is recommend to udpate your R installation and installed packages frequently. R can be updated by just downloading and installing the newest version from CRAN: [https://cran.r-project.org/](https://cran.r-project.org/).
+For this reason, it is recommended to udpate your R installation and installed packages frequently. R can be updated by just downloading and installing the newest version from CRAN: [https://cran.r-project.org/](https://cran.r-project.org/).
 
 RStudio makes it easy to update packages in the "packages" tab -- you can click on the update button and select any or all packages that you want to update.
 
