@@ -16,7 +16,7 @@ Introductory workshop in R for undergraduate researchers
 
 ## Class Information
 
-The class will meet in **XXXXXXXXXXXX** from 11-12:50 am on following dates:
+The class will meet in Science Initiative Building 4030 from 11-12:50 am on following dates:
 
 - March 6
 - March 13
