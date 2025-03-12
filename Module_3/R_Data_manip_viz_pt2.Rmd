@@ -25,12 +25,12 @@ Today we will continue with data manipulation and plotting that we started last 
 
 ## Set up:
 
-If you don't have the data from last time handy, or have forgotten where you put it, use the instructions from the the [week 2 session](https://wyoibc.github.io/r4grads/Module_2/R_Data_manip_viz.html) to re-download it. Then set your working directory to where the data are:
+If you don't have the data from last time handy, or have forgotten where you put it, use the instructions from the the [week 2 session](https://wyoibc.github.io/r4undergrads/Module_2/R_Data_manip_viz.html) to re-download it. Then set your working directory to where the data are:
 
 * **Remember that this file path will almost definitely be different for you!**
 
 ```{r, eval = FALSE}
-setwd("~/r4grads/lizard_data/")
+setwd("~/r4undergrads/lizard_data/")
 ```
 
 We'll need our `all_data` object again. If you have your `"lizard_data_merged.csv"` file that we wrote out last time, you can read in:

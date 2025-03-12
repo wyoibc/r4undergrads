@@ -40,7 +40,7 @@ Today we'll explore some data on thermal physiology taken from this paper: [Body
 
 <br>
 
-Before we can work with the data, we need to download it. Go to the Github repository for this workshop: [https://github.com/wyoibc/r4grads](https://github.com/wyoibc/r4grads) and click on the green `Code` button, then on the `Download ZIP` button. (You can alternately clone the repo if you're familiar with git). You can also download the individual files from [here](https://github.com/wyoibc/r4grads/tree/master/lizard_data) if you know how to do that.
+Before we can work with the data, we need to download it. Go to the Github repository for this workshop: [https://github.com/wyoibc/r4undergrads](https://github.com/wyoibc/r4undergrads) and click on the green `Code` button, then on the `Download ZIP` button. (You can alternately clone the repo if you're familiar with git). You can also download the individual files from [here](https://github.com/wyoibc/r4undergrads/tree/master/lizard_data) if you know how to do that.
 
 ![download zip](download_zip.png){#id .class width=50% height=50%}\
 
@@ -49,7 +49,7 @@ Before we can work with the data, we need to download it. Go to the Github repos
 Start by setting our working directory. If you set things up exactly as I did, then this path will work for you. If not, then you'll need to edit this path:
 
 ```{r, eval = FALSE}
-setwd("~/r4grads-master/lizard_data/")
+setwd("~/r4undergrads-master/lizard_data/")
 ```
 
 **Again, make sure this points to the correct path for you, not my path.**
