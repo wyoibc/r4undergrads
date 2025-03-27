@@ -69,20 +69,10 @@ If you already have experience in R and are comfortable with creating and manipu
 <br>
 
 
-<br>
-<br>
-
-# All tutorials below here are under active development and subject to change
-
-<br>
-<br>
-<br>
-<br>
-
 
 ## Week 4
 
-- [Using AI for coding](Module_4/R_week_4.html)
+- [Using AI for coding & project planning](Module_4/R_Data_project_planning_and_chatGPT.html)
 
 
 
